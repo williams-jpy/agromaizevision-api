@@ -4,20 +4,26 @@ from PIL import Image
 import numpy as np
 import tensorflow as tf
 import io
+import os
+from huggingface_hub import hf_hub_download
 
 app = FastAPI()
 
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Load your trained model
-model = tf.keras.models.load_model(r"C:\Users\hilary\Documents\Model\3.keras")
+# Download and load model from Hugging Face
+model_path = hf_hub_download(
+    repo_id="williams-jpy/agromaizevision",
+    filename="3.keras"
+)
+model = tf.keras.models.load_model(model_path)
 
 # Maize disease classes
 class_names = [
@@ -52,4 +58,4 @@ async def predict(file: UploadFile = File(...)):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host='localhost', port=8000)
+    uvicorn.run(app, host='0.0.0.0', port=7860)

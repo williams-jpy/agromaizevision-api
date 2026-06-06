@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 from PIL import Image
-import tensorflow as tf
+import keras
 from huggingface_hub import hf_hub_download
 import io
 
@@ -62,7 +62,7 @@ def load_model():
         repo_id="williams-jpy/agromaizevision",
         filename="3.keras"
     )
-    return tf.keras.models.load_model(model_path)
+    return keras.models.load_model(model_path)
 
 class_names = ["Common Rust", "Gray Leaf Spot", "Healthy", "Northern Leaf Blight"]
 
